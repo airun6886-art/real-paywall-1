@@ -12,26 +12,34 @@
 
   <!-- 1️⃣ Librería Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/module/supabase.min.js"></script>
-  
-  <!-- 2️⃣ Tu configuración -->
+
+  <!-- 2️⃣ Tu configuración de Supabase -->
   <script src="lib/supabase.js"></script>
 
   <!-- 3️⃣ Código del botón -->
   <script>
-    document.getElementById("loginBtn").addEventListener("click", async () => {
-      const email = document.getElementById("email").value;
-      if (!email) {
-        alert("Por favor ingresa tu email");
-        return;
-      }
+    // Espera a que el DOM cargue
+    document.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("loginBtn");
 
-      const { error } = await supabase.auth.signInWithOtp({ email });
-      if (error) {
-        alert("Error: " + error.message);
-      } else {
-        alert("¡Revisa tu correo para continuar!");
-      }
+      btn.addEventListener("click", async () => {
+        const email = document.getElementById("email").value.trim();
+        if (!email) {
+          alert("Por favor ingresa tu email");
+          return;
+        }
+
+        try {
+          const { error } = await supabase.auth.signInWithOtp({ email });
+          if (error) {
+            alert("Error: " + error.message);
+          } else {
+            alert("¡Revisa tu correo para continuar!");
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Ocurrió un error inesperado. Revisa la consola.");
+        }
+      });
     });
-  </script>
-</body>
-</html>
+  </scr
