@@ -6,22 +6,32 @@
 </head>
 <body>
   <h1>Login / Obtener diagnóstico</h1>
+
   <input type="email" id="email" placeholder="Tu email">
   <button id="loginBtn">Enviar Magic Link</button>
 
-  <!-- Librería Supabase -->
+  <!-- 1️⃣ Librería Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/module/supabase.min.js"></script>
-  <!-- Tu configuración de Supabase -->
+  
+  <!-- 2️⃣ Tu configuración -->
   <script src="lib/supabase.js"></script>
-  <!-- Código de login -->
+
+  <!-- 3️⃣ Código del botón -->
   <script>
     document.getElementById("loginBtn").addEventListener("click", async () => {
       const email = document.getElementById("email").value;
+      if (!email) {
+        alert("Por favor ingresa tu email");
+        return;
+      }
+
       const { error } = await supabase.auth.signInWithOtp({ email });
-      if (error) alert(error.message);
-      else alert("Revisa tu correo para continuar");
+      if (error) {
+        alert("Error: " + error.message);
+      } else {
+        alert("¡Revisa tu correo para continuar!");
+      }
     });
   </script>
 </body>
 </html>
-
