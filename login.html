@@ -9,16 +9,19 @@
   <input type="email" id="email" placeholder="Tu email">
   <button id="loginBtn">Enviar Magic Link</button>
 
+  <!-- Librería Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/module/supabase.min.js"></script>
+  <!-- Tu configuración de Supabase -->
   <script src="lib/supabase.js"></script>
+  <!-- Código de login -->
   <script>
-    const btn = document.getElementById("loginBtn")
-    btn.addEventListener("click", async () => {
-      const email = document.getElementById("email").value
-      const { error } = await supabase.auth.signInWithOtp({ email })
-      if (error) alert(error.message)
-      else alert("Revisa tu correo para continuar")
-    })
+    document.getElementById("loginBtn").addEventListener("click", async () => {
+      const email = document.getElementById("email").value;
+      const { error } = await supabase.auth.signInWithOtp({ email });
+      if (error) alert(error.message);
+      else alert("Revisa tu correo para continuar");
+    });
   </script>
 </body>
 </html>
+
