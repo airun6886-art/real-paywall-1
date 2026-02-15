@@ -1,35 +1,42 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Login Real Paywall</title>
+  <meta charset="UTF-8" />
+  <title>Login</title>
 </head>
 <body>
-  <h1>Login / Obtener diagnóstico</h1>
 
-  <input type="email" id="email" placeholder="Tu email">
+  <h2>Login con Magic Link</h2>
+
+  <input type="email" id="email" placeholder="Tu correo" />
   <button id="loginBtn">Enviar Magic Link</button>
 
-  <!-- Librería Supabase UMD (compatible HTML puro) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.24.0/dist/supabase.min.js"></script>
+  <p id="message"></p>
 
+  <!-- Supabase v1 (IMPORTANTE) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7/dist/supabase.min.js"></script>
 
-  <!-- Configuración Supabase -->
-  <script src="lib/supabase.js"></script>
-
-  <!-- Código del botón -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const btn = document.getElementById("loginBtn");
-      btn.addEventListener("click", async () => {
-        const email = document.getElementById("email").value.trim();
-        if (!email) { alert("Por favor ingresa tu email"); return; }
+    const SUPABASE_URL = "https://guvezqmrebzekipjelte.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1dmV6cW1yZWJ6ZWtpcGplbHRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5OTM0MTYsImV4cCI6MjA4NjU2OTQxNn0.diu5zEvrJ1YmNu3Pk00YO9BTqAmuGrp2G6Tw4-j1X0s";
 
-        const { error } = await supabase.auth.signInWithOtp({ email });
-        if (error) alert("Error: " + error.message);
-        else alert("¡Revisa tu correo para continuar!");
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    document.getElementById("loginBtn").addEventListener("click", async () => {
+      const email = document.getElementById("email").value;
+
+      const { error } = await supabase.auth.signIn({
+        email: email
       });
+
+      if (error) {
+        document.getElementById("message").innerText = "Error: " + error.message;
+      } else {
+        document.getElementById("message").innerText =
+          "Revisa tu correo para el Magic Link.";
+      }
     });
   </script>
+
 </body>
 </html>
